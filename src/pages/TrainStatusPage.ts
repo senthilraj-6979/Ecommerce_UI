@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
 import { expect } from '@playwright/test';
 
-import { BasePage } from './basePage';
+import { BasePage } from './BasePage';
 
 export class TrainStatusPage extends BasePage {
   private heading = this.page.getByRole("heading", { name: /train status/i }).first();
