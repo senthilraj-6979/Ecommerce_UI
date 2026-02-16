@@ -1,3 +1,4 @@
+@regression
 Feature: Amtrak Home Page Search Functionality
 
   Scenario Outline: Home page Search Functionality

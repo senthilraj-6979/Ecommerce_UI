@@ -1,5 +1,5 @@
 export const config = {
-  baseURL: "https://www.amtrak.com",
+  baseURL: "https://www.aemtestamtrak.com",
   headless: false,                 // set true in CI
   defaultTimeoutMs: 60_000,
   navigationTimeoutMs: 60_000,
