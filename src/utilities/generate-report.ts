@@ -6,10 +6,7 @@ const options = {
   output: "reports/cucumber/cucumber-report.html",
   reportSuiteAsScenarios: true,
   scenarioTimestamp: true,
-  launchReport: false
-};
+  launchReport: true
+} as const;
 
 reporter.generate(options);
-
-
-
