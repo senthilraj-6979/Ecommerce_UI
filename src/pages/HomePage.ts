@@ -1,7 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { count } from "console";
+import { BasePage } from "./BasePage";
 
-export class HomePage {
+export class HomePage extends BasePage {
   readonly page: Page;
   readonly header: Locator;
   readonly oneWayDropdown: Locator;
@@ -18,6 +19,7 @@ export class HomePage {
 
 
   constructor(page: Page) {
+        super(page);
     if (!page) throw new Error('HomePage: page is undefined (check Cucumber Before hook / World)');
     this.page = page;
     //   page.setDefaultNavigationTimeout(30000);
@@ -59,8 +61,7 @@ export class HomePage {
 
    async clickBookWithPoints() {
       await this.usePointsCheckbox.click();
-    //await this.page.locator('//input[@id="redeemPoints-checkbox"]/..').click({ force: true });
-  }
+   }
 
 
 
