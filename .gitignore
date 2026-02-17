@@ -5,3 +5,4 @@ test-results/
 reports/
 dist/
 .env
+.DS_Store
