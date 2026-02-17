@@ -7,8 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf reports dist",
     "test:bdd": "npm run clean && cucumber-js",
+    "test:trainStatus": "cucumber-js --config cucumber.json --tags @trainStatus",
+    "test:regression": "cucumber-js --config cucumber.json --tags @regression",
     "report:cucumber": "ts-node src/utilities/generate-report.ts",
-    "test:all": "npm run test:bdd && npm run report:cucumber"
+    "test:all": "npm run test:bdd && npm run report:cucumber",
+    "lint": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "cucumber-html-reporter": "^7.2.0",
+    "rimraf": "^6.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

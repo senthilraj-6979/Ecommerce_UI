@@ -1,4 +1,4 @@
-@regression
+@regression @trainStatus
 Feature: Train Status Functionality
 
 Scenario: Train Status Functionality
@@ -6,3 +6,8 @@ Scenario: Train Status Functionality
   When Amtrak Home page should be loaded
   Then Click on the Train Status option
   Then User should be navigated to Train Status page
+  Then Click From and enter departure "WAS"
+  Then Click To and enter arrival station "WIL"
+  Then Click calender and select date
+  Then Click Check Trains Status button
+  Then Train status results should be displayed
