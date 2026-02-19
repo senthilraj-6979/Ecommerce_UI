@@ -1,4 +1,4 @@
-import { Before, After, setDefaultTimeout } from "@cucumber/cucumber";
+import { Before, After, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { chromium } from "playwright";
 import { PWWorld } from "./world";
 
@@ -13,7 +13,9 @@ Before(async function (this: PWWorld) {
   console.log("HOOK: page created?", !!this.page);
 });
 
-After(async function (this: PWWorld) {
+After(async function (this: PWWorld, scenario) {
+  // Take screenshot on failure
+  
   await this.page?.close().catch(() => {});
   await this.context?.close().catch(() => {});
   await this.browser?.close().catch(() => {});

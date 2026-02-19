@@ -51,12 +51,14 @@ export class TrainStatusPage extends BasePage {
     await this.selectCalendar.click();
     await this.month.waitFor({ state: 'visible' });
     const monthName = await this.month.innerText();
+    console.log(`Current month displayed in calendar: ${monthName}`);
+   // await this.page.click('.ngb-dp-day');
 
   }
 
   async clickCheckStatusButton() {
     await this.checkStatusBtn.click();
-    await this.page.waitForTimeout(30000);
+    await this.page.waitForTimeout(15000);
   }
 
   async getTrainStatusLabelText() {
