@@ -1,6 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { count } from "console";
 import { BasePage } from "./BasePage";
+import { config } from "../utilities/config"
+;  
 
 export class HomePage extends BasePage {
   readonly page: Page;
@@ -40,9 +42,9 @@ export class HomePage extends BasePage {
 
 
   async open() {
-    await this.page.goto("https://aemtest.amtrak.com/home", { waitUntil: "domcontentloaded" });
+    await this.page.goto(config.baseURL, { waitUntil: "domcontentloaded" });
     await this.acceptCookie.click();
-  }
+  } 
 
   async clickOneWayDropdown() {
     //await expect(this.acceptCookie).toBeVisible({ timeout: 30000 });
