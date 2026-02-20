@@ -50,3 +50,8 @@ Then('Train status results should be displayed', async function (this: PWWorld) 
     await trainStatus.getTrainStatusLabelText();
     await trainStatus.getTrainRowCount();
 });
+
+Then('Scroll down to view train status details', async function (this: PWWorld) {
+    const trainStatus = new TrainStatusPage(this.page);
+    await trainStatus.scrollToTrainStatusDetails();
+});

@@ -13,6 +13,15 @@ Before(async function (this: PWWorld) {
   this.page.on('dialog', async (dialog) => {
     console.log(`Dialog type: ${dialog.type()}, message: ${dialog.message()}`);
     await dialog.accept(); // Change to dialog.dismiss() if needed
+
+ const info = {
+    browser: 'Chromium',
+    timestamp: new Date().toISOString(),
+    url: 'Starting test...'
+  };
+  await this.attach(JSON.stringify(info, null, 2), 'application/json');
+
+
   });
 
   // Handle popup windows (new tabs/windows)

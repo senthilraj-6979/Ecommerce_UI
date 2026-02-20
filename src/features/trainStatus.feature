@@ -11,3 +11,4 @@ Scenario: Train Status Functionality
   Then Click calender and select date
   Then Click Check Trains Status button
   Then Train status results should be displayed
+  Then Scroll down to view train status details

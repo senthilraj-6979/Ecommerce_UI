@@ -15,6 +15,7 @@ export class TrainStatusPage extends BasePage {
   readonly checkStatusBtn: Locator;
   readonly month: Locator;
   readonly resultsLocator: Locator;
+  readonly showResults: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -27,11 +28,25 @@ export class TrainStatusPage extends BasePage {
     this.checkStatusBtn = this.page.getByRole('button', { name: 'CHECK STATUS' });
     this.month = this.page.locator('.ngb-dp-month-name');
     this.resultsLocator = this.page.getByRole('heading', { name: 'Train Status' });
+    this.showResults = this.page.locator('.paginator__result-text');
   }
 
 
   async clickTrainStatusTab() {
-    await this.trainStatusTab.click();
+    // Close cookie consent if present
+    try {
+      const cookieOverlay = this.page.locator('.onetrust-pc-dark-filter');
+      if (await cookieOverlay.isVisible()) {
+        const acceptButton = this.page.getByRole('button', { name: 'Allow All' });
+        await acceptButton.click({ timeout: 3000 });
+        await this.page.waitForTimeout(500);
+      }
+    } catch (e) {
+      // Cookie overlay not present or already dismissed
+    }
+    
+    await this.trainStatusTab.waitFor({ state: 'visible', timeout: 10000 });
+    await this.trainStatusTab.click({ force: true });
   }
 
   async assertLoaded() {
@@ -68,7 +83,8 @@ export class TrainStatusPage extends BasePage {
 }
 
 async getTrainRowCount() {
- 
+   // Scroll to the first result instead of all results
+
    const trainContainers = this.page.locator('.train-container.ng-star-inserted');
    const count = await trainContainers.count();
 
@@ -91,10 +107,14 @@ async getTrainRowCount() {
         status
     });
   }
-
   return count;
 }
 
+async scrollToTrainStatusDetails() {
+   await this.showResults.first().scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(2000); // Wait for any lazy-loaded content to appear
+    console.log('Scrolled to train status details section', await this.showResults.first().innerText());
 
+}
 }
 
