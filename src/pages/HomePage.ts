@@ -1,6 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { count } from "console";
 import { BasePage } from "./BasePage";
+import { config } from "../utilities/config"
+;  
 
 export class HomePage extends BasePage {
   readonly page: Page;
@@ -40,23 +42,20 @@ export class HomePage extends BasePage {
 
 
   async open() {
-    await this.page.goto("https://aemtest.amtrak.com/home", { waitUntil: "domcontentloaded" });
-    await this.acceptCookie.click();
-  }
+    await this.page.goto(config.baseURL, { waitUntil: "domcontentloaded" });
+    // Accept cookies if banner is present
+    try {
+      await this.acceptCookie.click({ timeout: 5000 });
+    } catch (e) {
+      // Cookie banner not present or already accepted
+      console.log('Cookie banner not found - likely already accepted');
+    }
+  } 
 
   async clickOneWayDropdown() {
-    //await expect(this.acceptCookie).toBeVisible({ timeout: 30000 });
-    const acceptCookieCount = await this.oneWayDropdown.count();
-    console.log(`Accept cookie button count: ${acceptCookieCount}`);
-
-    if (acceptCookieCount > 1) {
-      await this.acceptCookie.click();
-      await this.acceptCookie.click();
-    }
-    else {
-      await this.oneWayDropdown.click();
-    }
-
+    // Wait for and click the one-way dropdown button
+    await this.oneWayDropdown.waitFor({ state: 'visible', timeout: 30000 });
+    await this.oneWayDropdown.click();
   }
 
    async clickBookWithPoints() {

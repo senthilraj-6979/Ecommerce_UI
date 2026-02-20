@@ -1,6 +1,10 @@
 pipeline {
     agent any
     
+    tools {
+        nodejs 'NodeJS 20'
+    }
+    
     options {
         timeout(time: 30, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -21,26 +25,34 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
-                sh 'npx playwright install --with-deps'
+                nodejs('NodeJS 20') {
+                    sh 'npm ci'
+                    sh 'npx playwright install --with-deps'
+                }
             }
         }
         
         stage('Lint') {
             steps {
-                sh 'npm run lint || true'
+                nodejs('NodeJS 20') {
+                    sh 'npm run lint || true'
+                }
             }
         }
         
         stage('Run Tests') {
             steps {
-                sh 'npm run test:bdd'
+                nodejs('NodeJS 20') {
+                    sh 'npm run test:bdd'
+                }
             }
         }
         
         stage('Generate Report') {
             steps {
-                sh 'npm run report:cucumber'
+                nodejs('NodeJS 20') {
+                    sh 'npm run report:cucumber'
+                }
             }
         }
     }

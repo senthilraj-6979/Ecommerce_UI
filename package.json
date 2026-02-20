@@ -7,8 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf reports dist",
     "test:bdd": "npm run clean && cucumber-js",
+    "test:safari": "npm run clean && BROWSER=safari cucumber-js",
     "test:trainStatus": "cucumber-js --config cucumber.json --tags @trainStatus",
+    "test:trainStatus:safari": "BROWSER=safari cucumber-js --config cucumber.json --tags @trainStatus",
     "test:regression": "cucumber-js --config cucumber.json --tags @regression",
+    "test:regression:safari": "BROWSER=safari cucumber-js --config cucumber.json --tags @regression",
     "report:cucumber": "ts-node src/utilities/generate-report.ts",
     "test:all": "npm run test:bdd && npm run report:cucumber",
     "lint": "tsc --noEmit"
