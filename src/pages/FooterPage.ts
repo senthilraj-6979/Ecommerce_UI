@@ -25,8 +25,7 @@ async footerSectionLinks() {
     // Verify footer section is visible
     await expect(this.footerSection.first()).toBeVisible();
     
-    
-    // Log the number of footer links found
+        // Log the number of footer links found
     const linkCount = await this.footerSection.count();
     console.log(`Footer links found: ${linkCount}`);
   }
@@ -36,8 +35,6 @@ async footerSectionLinks() {
     await this.footerSection.first().scrollIntoViewIfNeeded();
     const link = this.page.locator('.footer-list a', { hasText: linkText });
     await expect(link).toBeVisible();
-    
-    
     console.log(`✓ Footer link "${linkText}" is present`);
   }
 
@@ -47,8 +44,6 @@ async footerSectionLinks() {
     const link = this.page.locator('.footer-list a', { hasText: linkText });
     
     await expect(link).toBeVisible();
-    
-  
     console.log(`Clicking footer link: "${linkText}"`);
     
     // Check if link opens in new tab
@@ -113,16 +108,12 @@ async footerSectionLinks() {
           await newPage.waitForLoadState('domcontentloaded', { timeout: 10000 });
           console.log(`✓ Opened in new tab: ${newPage.url()}`);
           
-  
-          
           await newPage.close();
         } else {
           // Same page navigation
           await link.click();
           await this.page.waitForLoadState('domcontentloaded', { timeout: 10000 });
           console.log(`✓ Navigated to: ${this.page.url()}`);
-          
-         
           
           // Go back to home page
           await this.page.goBack();
