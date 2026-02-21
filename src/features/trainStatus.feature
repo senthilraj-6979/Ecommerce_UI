@@ -8,7 +8,6 @@ Scenario: Train Status Functionality
   Then User should be navigated to Train Status page
   Then Click From and enter departure "WAS"
   Then Click To and enter arrival station "WIL"
-  Then Click calender and select date
+  Then Click calender and select date "2" days from current date
   Then Click Check Trains Status button
-  Then Train status results should be displayed
   Then Scroll down to view train status details

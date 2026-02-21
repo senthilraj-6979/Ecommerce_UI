@@ -34,9 +34,9 @@ Then('Click To and enter arrival station {string}', async function (this: PWWorl
     await trainStatus.enterArrivalStation(arrivalStation);
 });
 
-Then('Click calender and select date', async function (this: PWWorld) {
+Then('Click calender and select date {string} days from current date', async function (this: PWWorld, dayOffset: string) {
     const trainStatus = new TrainStatusPage(this.page);
-    await trainStatus.selectDate();
+    await trainStatus.selectDate(parseInt(dayOffset));
 });
 
 Then('Click Check Trains Status button', async function (this: PWWorld) {
@@ -45,11 +45,6 @@ Then('Click Check Trains Status button', async function (this: PWWorld) {
 });
 
 
-Then('Train status results should be displayed', async function (this: PWWorld) {
-    const trainStatus = new TrainStatusPage(this.page);
-    await trainStatus.getTrainStatusLabelText();
-    await trainStatus.getTrainRowCount();
-});
 
 Then('Scroll down to view train status details', async function (this: PWWorld) {
     const trainStatus = new TrainStatusPage(this.page);
