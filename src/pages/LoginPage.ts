@@ -29,16 +29,6 @@ export class LoginPage extends BasePage {
     await this.signPopup.waitFor({ state: 'visible', timeout: 50000 });
     await this.page.waitForTimeout(2000); // Wait for popup animations
     
-    // First, close the popup by clicking the arrow or anywhere to dismiss it
-    try {
-      await this.popupArrow.click({ timeout: 3000 });
-      await this.page.waitForTimeout(500);
-    } catch (e) {
-      // If no arrow, try clicking outside popup to close it
-      await this.page.mouse.click(100, 100);
-      await this.page.waitForTimeout(500);
-    }
-    
     // Now the Sign In link should be accessible
     await this.signInLink.click();
     await this.page.waitForLoadState('load');
@@ -51,7 +41,7 @@ export class LoginPage extends BasePage {
     await this.submitButton.click();
     // Wait for login to process
     await this.page.waitForLoadState('load');
-    await this.page.waitForTimeout(3000); // Give time for redirect/processing
+    await this.page.waitForTimeout(10000); // Give time for redirect/processing
   }
 
 
