@@ -1,11 +1,30 @@
 import { Before, After, Status, setDefaultTimeout } from "@cucumber/cucumber";
-import { chromium } from "playwright";
+import { chromium, webkit, firefox } from "playwright";
 import { PWWorld } from "./world";
 
 setDefaultTimeout(60_000);
 
 Before(async function (this: PWWorld) {
-  this.browser = await chromium.launch({ headless: false });
+  // Get browser from environment variable, default to chromium
+  const browserType = process.env.BROWSER || 'chromium';
+  
+  let browserEngine;
+  switch (browserType.toLowerCase()) {
+    case 'safari':
+    case 'webkit':
+      browserEngine = webkit;
+      break;
+    case 'firefox':
+      browserEngine = firefox;
+      break;
+    case 'chrome':
+    case 'chromium':
+    default:
+      browserEngine = chromium;
+      break;
+  }
+  
+  this.browser = await browserEngine.launch({ headless: false });
   this.context = await this.browser.newContext({ viewport: null });
   this.page = await this.context.newPage(); // <-- MUST be here
 

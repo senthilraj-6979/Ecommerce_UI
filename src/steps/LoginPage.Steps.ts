@@ -15,7 +15,9 @@ Then('Click on the Sign In option', async function (this: PWWorld) {
               // Navigate back to homepage after login
               const homePage = new HomePage(this.page);
               await homePage.open();
-              await this.page.reload({ waitUntil: 'load' });
+              // Wait for page to be fully loaded and interactive
+              await this.page.waitForLoadState('networkidle', { timeout: 60000 });
+              await this.page.waitForTimeout(2000); // Additional buffer for any dynamic content
          });
 
 

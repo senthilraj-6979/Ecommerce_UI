@@ -1,5 +1,4 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { count } from "console";
 import { BasePage } from "./BasePage";
 
 export class LoginPage extends BasePage {
@@ -39,9 +38,9 @@ export class LoginPage extends BasePage {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.submitButton.click();
-    // Wait for login to process
-    await this.page.waitForLoadState('load');
-    await this.page.waitForTimeout(10000); // Give time for redirect/processing
+    // Wait for login to process and navigation to complete
+    await this.page.waitForLoadState('networkidle', { timeout: 60000 });
+    await this.page.waitForTimeout(3000); // Additional buffer for any post-login processing
   }
 
 
