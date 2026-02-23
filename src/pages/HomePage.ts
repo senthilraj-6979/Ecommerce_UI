@@ -2,7 +2,7 @@ import { Page, Locator, expect } from "@playwright/test";
 import { count } from "console";
 import { BasePage } from "./BasePage";
 import { config } from "../utilities/config"
-;  
+  ;
 
 export class HomePage extends BasePage {
   readonly page: Page;
@@ -17,11 +17,12 @@ export class HomePage extends BasePage {
   readonly selectDate: Locator;
   readonly doneButton: Locator;
   readonly findTrainsButton: Locator;
+  readonly tripTypeDropdownList: Locator;
 
 
 
   constructor(page: Page) {
-        super(page);
+    super(page);
     if (!page) throw new Error('HomePage: page is undefined (check Cucumber Before hook / World)');
     this.page = page;
     //   page.setDefaultNavigationTimeout(30000);
@@ -29,7 +30,7 @@ export class HomePage extends BasePage {
     this.oneWayDropdown = this.page.getByRole('button', { name: 'Trip Type:One-Way' });
     // this.oneWayDropdown = this.page.getByText('One-Way', { exact: true });
     this.acceptCookie = page.getByRole('button', { name: 'Allow All' });
-    this.usePointsCheckbox =   page.locator('//input[@id="redeemPoints-checkbox"]/..');
+    this.usePointsCheckbox = page.locator('//input[@id="redeemPoints-checkbox"]/..');
     this.oneWayOption = page.getByRole('button', { name: 'One-Way', exact: true });
     this.fromCity = page.getByPlaceholder('From', { exact: true });
     this.toCity = page.getByPlaceholder('To', { exact: true });
@@ -38,6 +39,9 @@ export class HomePage extends BasePage {
     this.selectDate = page.getByText('9').nth(3);
     this.doneButton = page.getByRole('button', { name: 'Done' });
     this.findTrainsButton = page.getByRole('button', { name: 'FIND TRAINS' });
+    this.tripTypeDropdownList = page.locator('.ff-trip-type__dropdown.flex-column');
+
+
 
   }
 
@@ -52,7 +56,7 @@ export class HomePage extends BasePage {
     try {
       await this.acceptCookie.waitFor({ state: 'visible', timeout: 5000 });
       await this.acceptCookie.click();
-       await this.acceptCookie.click();
+      await this.acceptCookie.click();
       await this.page.waitForTimeout(2000); // Wait for cookie banner to fully disappear
     } catch (e) {
       // Cookie banner not present or already accepted
@@ -60,14 +64,14 @@ export class HomePage extends BasePage {
     }
     // Additional wait for any page elements to stabilize
     await this.page.waitForTimeout(1000);
-  } 
+  }
 
   async clickOneWayDropdown() {
     // Wait for page to be fully loaded and element to be actionable
     await this.page.waitForLoadState('domcontentloaded');
-    
-    
-    
+
+
+
     // Ensure element is enabled and not covered by overlays
     await this.oneWayDropdown.waitFor({ state: 'attached', timeout: 10000 });
     // Scroll element into view if needed
@@ -76,14 +80,31 @@ export class HomePage extends BasePage {
     await this.oneWayDropdown.click({ timeout: 10000 });
   }
 
-   async clickBookWithPoints() {
-      await this.usePointsCheckbox.click();
-   }
+  async clickBookWithPoints() {
+    await this.usePointsCheckbox.click();
+  }
 
 
 
   async clickOneWayOption() {
     await this.oneWayOption.click();
+  }
+
+  async tripTypeDropdownOptions() {
+
+    // Wait for dropdown list to be visible
+    const parent = this.tripTypeDropdownList;
+    await parent.waitFor({ state: 'visible', timeout: 10000 });
+
+    const children = parent.locator('> *');
+    const childCount = await children.count();
+
+    // Iterate through children
+    for (let i = 0; i < childCount; i++) {
+      const text = await children.nth(i).textContent();
+      console.log(`Child ${i}: ${text}`);
+    }
+
   }
 
   async assertLoaded() {
@@ -119,18 +140,18 @@ export class HomePage extends BasePage {
     // If month and year are provided, navigate to that month
     if (targetMonth && targetYear) {
       const nextMonthButton = this.page.getByRole('button', { name: 'Next month' });
-      
+
       // Try up to 12 times to find the target month (max 1 year forward)
       for (let i = 0; i < 12; i++) {
         // Check if target month is visible
         const monthHeader = this.page.locator('.ngb-dp-month-name').first();
         const currentMonthText = await monthHeader.textContent();
-        
-        
+
+
         if (currentMonthText?.includes(targetMonth) && currentMonthText?.includes(targetYear.toString())) {
           break; // Found the target month
         }
-        
+
         // Click next month
         await nextMonthButton.click();
         await this.page.waitForTimeout(500);
@@ -139,14 +160,14 @@ export class HomePage extends BasePage {
 
     // Select the date by aria-label (more reliable than just clicking a number)
     // Build a regex pattern to match the date
-    const datePattern = targetMonth && targetYear 
+    const datePattern = targetMonth && targetYear
       ? new RegExp(`${targetMonth}\\s+${targetDay},\\s+${targetYear}`, 'i')
       : new RegExp(`\\b${targetDay},\\s+\\d{4}$`); // Match any month with this day number
 
     // Find the gridcell with the matching aria-label that is NOT disabled
     const dateCell = this.page.locator(`[role="gridcell"]:not(.disabled)[aria-label*="${targetDay}"]`).first();
     await dateCell.click();
-    
+
     // Click Done button
     await this.doneButton.click();
   }

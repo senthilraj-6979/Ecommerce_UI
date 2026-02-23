@@ -6,6 +6,7 @@ Feature: Amtrak Home Page Search Functionality
     When Amtrak Home page should be loaded
     Then Click on the Book with Points option
     Then Click one way dropdown
+    Then Verify list of options are displayed in one way dropdown
     Then Select one way dropdown option
     Then Click From and enter origin "<orgcity>"
     Then Click To and enter destination "<destcity>"

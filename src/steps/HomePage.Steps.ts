@@ -32,6 +32,11 @@ Then('Select one way dropdown option', async function (this: PWWorld) {
 });
 
 
+Then('Verify list of options are displayed in one way dropdown', async function (this: PWWorld) {
+  const home = new HomePage(this.page);
+  await home.tripTypeDropdownOptions();
+});
+
 Then('Click From and enter origin {string}', async function (this: PWWorld, orgcity: string) {
   const home = new HomePage(this.page);
   await home.enterOriginCity(orgcity);
