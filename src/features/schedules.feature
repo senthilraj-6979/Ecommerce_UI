@@ -15,3 +15,13 @@ Feature: Amtrak Home Page Schedule Functionality
     Examples:
       | orgcity | destcity |
       | WAS     | WIL      |
+
+
+@regression @trainSchedules
+  Scenario: Amtrak Home Page Schedule search by dropdown functionality
+    Given User is on Amtrak Home page
+    When Amtrak Home page should be loaded
+    Then Click on the Schedules tab
+    Then Click search by dropdown
+    Then Select Route option in search by dropdown
+   

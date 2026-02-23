@@ -31,6 +31,7 @@ export class TrainStatusPage extends BasePage {
     this.resultsLocator = this.page.getByRole('heading', { name: 'Train Status' });
     this.showResults = this.page.locator('.paginator__result-text');
     this.noOfPages = this.page.locator('.pagination-page.page-item');
+   
   }
 
 
@@ -133,5 +134,7 @@ export class TrainStatusPage extends BasePage {
       }
     }
   }
-}
+ }
+
+
 

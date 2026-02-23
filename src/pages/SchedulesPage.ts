@@ -17,6 +17,8 @@ export class SchedulesPage extends BasePage {
     readonly availableTripsHeading: Locator;
     readonly showResults: Locator;
     readonly noOfPages: Locator;
+    readonly searchByDropdown: Locator;
+    readonly routeOption: Locator;
 
 
 
@@ -37,6 +39,9 @@ export class SchedulesPage extends BasePage {
         this.availableTripsHeading = page.getByRole('heading', { name: 'Available Trips' });
         this.showResults = this.page.locator('.paginator__result-text');
         this.noOfPages = this.page.locator('.pagination-page.page-item');
+
+        this.searchByDropdown = this.page.getByRole('button').filter({ hasText: 'Train Station' }).first();
+        this.routeOption = this.page.getByRole('menuitem', { name: 'Route' });
     }
     async clickSchedulesTab() {
         // Close cookie consent if present
@@ -133,19 +138,19 @@ export class SchedulesPage extends BasePage {
             console.log('DOM content load timeout - continuing anyway');
         });
 
-        // Wait for any schedule results or error messages to appear
-        await this.page.waitForTimeout(3000); // Give time for results to render
+        // Wait for the Available Trips heading to appear or for a "no results" message
+        await this.page.waitForSelector(
+            'h2:has-text("Available Trips"), .no-results, .error-message',
+            { timeout: 15000, state: 'visible' }
+        ).catch(() => {
+            console.log('Results not loaded within 15 seconds - continuing to verify');
+        });
     }
 
     async verifyScheduleResults() {
-        const isResultsVisible = await this.availableTripsHeading.isVisible({ timeout: 10000 }).catch(() => false);
-        if (isResultsVisible) {
-            console.log('Available Trips heading is visible - schedules loaded successfully');
-        } else {
-            console.log('Available Trips heading not found - schedules may not have loaded correctly');
-        }
-        await expect(this.availableTripsHeading).toBeVisible();
-
+        // Wait for the heading with increased timeout since results may take time to load
+        await expect(this.availableTripsHeading).toBeVisible({ timeout: 15000 });
+        console.log('Available Trips heading is visible - schedules loaded successfully');
     }
 
     async scrollToTrainStatusDetails() {
@@ -155,7 +160,7 @@ export class SchedulesPage extends BasePage {
 
         for (let i = 0; i < pagesText; i++) {
             const pageButton = this.noOfPages.nth(i);
-        //    const pageNum = await pageButton.innerText();
+            //    const pageNum = await pageButton.innerText();
             this.noOfPages.nth(i).scrollIntoViewIfNeeded();
             await this.page.waitForTimeout(2000); // Wait for any lazy-loaded content to appear 
             this.noOfPages.nth(i).click();
@@ -184,6 +189,43 @@ export class SchedulesPage extends BasePage {
                 });
             }
         }
+    }
+
+
+    async getSearchByDropdownOptions() {
+        // First, wait for the dropdown button to be visible
+        await this.searchByDropdown.waitFor({ state: 'visible', timeout: 10000 });
+        console.log('Dropdown button is visible');
+
+        // Click to open the dropdown
+        await this.searchByDropdown.click();
+        await this.page.waitForTimeout(1000); // Wait for dropdown animation
+        console.log('Clicked dropdown button');
+
+        // Wait for dropdown options to appear - try multiple possible selectors
+        const dropdownMenu = this.page.locator('.dropdown-menu, .dropdown-content, [role="menu"]').first();
+        await dropdownMenu.waitFor({ state: 'visible', timeout: 5000 });
+        await expect(dropdownMenu).toBeVisible();
+        console.log('Dropdown menu is visible');
+
+        // Get all child elements (options) of the dropdown
+        const children = dropdownMenu.locator('> *');
+        const childCount = await children.count();
+        console.log(`Found ${childCount} options in dropdown`);
+
+        // Iterate through children and log their text
+        for (let i = 0; i < childCount; i++) {
+            const text = await children.nth(i).textContent();
+            console.log(`Option ${i}: ${text?.trim()}`);
+        }
+    }
+
+    async routeOptionInSearchByDropdown() {
+        // Wait for the Route option to be visible and click it
+        await this.routeOption.waitFor({ state: 'visible', timeout: 5000 });
+        await this.routeOption.click();
+        console.log('Clicked Route option');
+        await this.page.waitForTimeout(500); // Wait for selection to register
     }
 }
 

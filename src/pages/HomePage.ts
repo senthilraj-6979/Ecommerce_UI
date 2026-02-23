@@ -51,10 +51,10 @@ export class HomePage extends BasePage {
     // Wait for page to be fully loaded and interactive
     await this.page.waitForLoadState('domcontentloaded');
     // Wait for the header to be visible before proceeding
-    await this.header.waitFor({ state: 'visible', timeout: 10000 });
+    await this.header.waitFor({ state: 'visible', timeout: 5000 });
     // Accept cookies if banner is present
     try {
-      await this.acceptCookie.waitFor({ state: 'visible', timeout: 5000 });
+      await this.acceptCookie.waitFor({ state: 'visible', timeout: 3000 });
       await this.acceptCookie.click();
       await this.acceptCookie.click();
       await this.page.waitForTimeout(2000); // Wait for cookie banner to fully disappear
@@ -94,7 +94,7 @@ export class HomePage extends BasePage {
 
     // Wait for dropdown list to be visible
     const parent = this.tripTypeDropdownList;
-    await parent.waitFor({ state: 'visible', timeout: 10000 });
+    await parent.waitFor({ state: 'visible', timeout: 5000 });
     await this.page.waitForTimeout(1000); // Wait for any animations to complete
     await expect(parent).toBeVisible();
 

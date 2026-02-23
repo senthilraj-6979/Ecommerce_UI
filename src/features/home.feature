@@ -31,7 +31,8 @@ Feature: Amtrak Home Page Search Functionality
 #   Then Select one way dropdown option
 #   Then Click From and enter origin "<orgcity>"
 #   Then Click To and enter destination "<destcity>"
-#   Then Click Depart and select departure date
+#    Then Select departure date 12 in "May" 2026
+#   # Then Click Depart and select departure date
 #   Then Click Find Trains button
 #   Then Verify Select Your Trip are displayed
 #  Examples:
