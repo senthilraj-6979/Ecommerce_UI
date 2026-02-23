@@ -8,9 +8,10 @@ Feature: Amtrak Home Page Schedule Functionality
     Then User should be navigated to Schedules page
     Then Click From Station "<orgcity>"
     Then Click To Station "<destcity>"
-    Then Select schedule date
+    Then Select schedule date "June",<{2026}>,<{1}>
     Then Click Find Schedules button
-   # Then Verify Schedule results are displayed      
+    Then Verify Available trips are displayed
+    Then Scroll down to view train details
     Examples:
       | orgcity | destcity |
       | WAS     | WIL      |

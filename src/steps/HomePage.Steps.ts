@@ -60,10 +60,7 @@ Then('Select departure date <{int}> days from current date', async function (thi
 
 
 
-         Then('Select departure date {string} in {string} {string}', function (string, string2, string3) {
-           // Write code here that turns the phrase above into concrete actions
-           return 'pending';
-         });
+
 Then('Select departure date {int} in {string} {int}', async function (this: PWWorld, day: number, month: string, year: number) {
   const home = new HomePage(this.page);
   await home.selectDepartureDate(day, month, year);
