@@ -95,6 +95,12 @@ export class HomePage extends BasePage {
     // Wait for dropdown list to be visible
     const parent = this.tripTypeDropdownList;
     await parent.waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.waitForTimeout(1000); // Wait for any animations to complete
+    await expect(parent).toBeVisible();
+
+    
+    // Get all child elements (options) of the dropdown
+
 
     const children = parent.locator('> *');
     const childCount = await children.count();
