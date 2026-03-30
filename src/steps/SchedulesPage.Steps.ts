@@ -53,3 +53,13 @@
             const schedulesPage = new SchedulesPage(this.page);
             await schedulesPage.routeOptionInSearchByDropdown();
         });
+
+        Then('Click Route dropdown', async function (this: PWWorld) {
+            const schedulesPage = new SchedulesPage(this.page);
+            await schedulesPage.selectRouteOptionInDropdown();
+        });
+
+         Then('Select {string} route option', async function (this: PWWorld, route: string) {
+            const schedulesPage = new SchedulesPage(this.page);
+            await schedulesPage.selectRoute(route);
+        });

@@ -19,6 +19,7 @@ export class SchedulesPage extends BasePage {
     readonly noOfPages: Locator;
     readonly searchByDropdown: Locator;
     readonly routeOption: Locator;
+    readonly selectRouteDropdown: Locator;
 
 
 
@@ -42,6 +43,8 @@ export class SchedulesPage extends BasePage {
 
         this.searchByDropdown = this.page.getByRole('button').filter({ hasText: 'Train Station' }).first();
         this.routeOption = this.page.getByRole('menuitem', { name: 'Route' });
+        this.selectRouteDropdown = this.page.getByRole('combobox', { name: 'Route' });
+
     }
     async clickSchedulesTab() {
         // Close cookie consent if present
@@ -191,7 +194,6 @@ export class SchedulesPage extends BasePage {
         }
     }
 
-
     async getSearchByDropdownOptions() {
         // First, wait for the dropdown button to be visible
         await this.searchByDropdown.waitFor({ state: 'visible', timeout: 10000 });
@@ -222,10 +224,29 @@ export class SchedulesPage extends BasePage {
 
     async routeOptionInSearchByDropdown() {
         // Wait for the Route option to be visible and click it
-        await this.routeOption.waitFor({ state: 'visible', timeout: 5000 });
+        await this.routeOption.waitFor({ state: 'visible', timeout: 1000 });
         await this.routeOption.click();
-        console.log('Clicked Route option');
-        await this.page.waitForTimeout(500); // Wait for selection to register
+    }
+
+    async selectRouteOptionInDropdown() {
+        // Wait for the route dropdown to be visible
+        await this.selectRouteDropdown.waitFor({ state: 'visible', timeout: 5000 });
+        console.log('Route dropdown is visible');
+
+        // Click to open the route dropdown
+        await this.selectRouteDropdown.click();
+    }
+    async selectRouteFromDropdown(routeName: string) {
+
+        const dropdownOptions = this.page.locator('.dropdown-menu .dropdown-item');
+        await dropdownOptions.waitFor({ state: 'visible', timeout: 5000 });
+
+    }
+    async selectRoute(route: string) {
+        const routeOption = this.page.getByText(route, { exact: true }).first();
+        await routeOption.waitFor({ state: 'visible', timeout: 5000 });
+        await routeOption.click();
+        await this.page.waitForTimeout(2000); // Wait for any dynamic content to load after selecting route         
     }
 }
 

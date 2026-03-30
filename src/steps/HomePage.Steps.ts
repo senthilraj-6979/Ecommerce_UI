@@ -73,7 +73,20 @@ Then('Select departure date {int} in {string} {int}', async function (this: PWWo
 
 
 
+// Then('Click Find Trains button', async function (this: PWWorld) {
+//   const home = new HomePage(this.page);
+//   await home.clickFindTrains();
+// });
+
 Then('Click Find Trains button', async function (this: PWWorld) {
   const home = new HomePage(this.page);
+  // Capture any JS errors before clicking
+  let jsError = '';
+  this.page.on('console', (msg) => {
+    if (msg.type() === 'error') jsError = msg.text();
+  });
+
   await home.clickFindTrains();
+  
+  if (jsError) console.log('JS Error:', jsError);
 });

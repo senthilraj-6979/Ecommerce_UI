@@ -24,4 +24,6 @@ Feature: Amtrak Home Page Schedule Functionality
     Then Click on the Schedules tab
     Then Click search by dropdown
     Then Select Route option in search by dropdown
-   
+    Then Click Route dropdown
+    Then Select "Illini" route option
+    Then Click Find Schedules button 

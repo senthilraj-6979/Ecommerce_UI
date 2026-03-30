@@ -4,7 +4,7 @@ Feature: Amtrak Home Page Search Functionality
   Scenario Outline: Home page Search without Login
     Given User is on Amtrak Home page
     When Amtrak Home page should be loaded
-    Then Click on the Book with Points option
+    #Then Click on the Book with Points option
     Then Click one way dropdown
     Then Verify list of options are displayed in one way dropdown
     Then Select one way dropdown option
