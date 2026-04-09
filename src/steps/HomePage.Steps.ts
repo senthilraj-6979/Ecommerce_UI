@@ -32,11 +32,16 @@ Then('Select one way dropdown option', async function (this: PWWorld) {
 });
 
 
+Then('Verify list of options are displayed in one way dropdown', async function (this: PWWorld) {
+  const home = new HomePage(this.page);
+  await home.tripTypeDropdownOptions();
+});
+
 Then('Click From and enter origin {string}', async function (this: PWWorld, orgcity: string) {
   const home = new HomePage(this.page);
   await home.enterOriginCity(orgcity);
 });
-       
+
 
 
 Then('Click To and enter destination {string}', async function (this: PWWorld, destcity: string) {
@@ -44,16 +49,44 @@ Then('Click To and enter destination {string}', async function (this: PWWorld, d
   await home.enterDestinationCity(destcity);
 
 });
-       
+
 
 Then('Click Depart and select departure date', async function (this: PWWorld) {
   const home = new HomePage(this.page);
   await home.clickDepartDate();
 });
-       
 
+
+
+Then('Select departure date <{int}> days from current date', async function (this: PWWorld, day: number) {
+  const home = new HomePage(this.page);
+  await home.selectDepartureDate(day);
+});
+
+
+
+
+Then('Select departure date {int} in {string} {int}', async function (this: PWWorld, day: number, month: string, year: number) {
+  const home = new HomePage(this.page);
+  await home.selectDepartureDate(day, month, year);
+});
+
+
+
+// Then('Click Find Trains button', async function (this: PWWorld) {
+//   const home = new HomePage(this.page);
+//   await home.clickFindTrains();
+// });
 
 Then('Click Find Trains button', async function (this: PWWorld) {
   const home = new HomePage(this.page);
+  // Capture any JS errors before clicking
+  let jsError = '';
+  this.page.on('console', (msg) => {
+    if (msg.type() === 'error') jsError = msg.text();
+  });
+
   await home.clickFindTrains();
+  
+  if (jsError) console.log('JS Error:', jsError);
 });

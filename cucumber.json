@@ -8,7 +8,8 @@
       "src/steps/**/*.ts"
     ],
     "format": ["progress", "json:reports/cucumber/cucumber-report.json"],
-    "publishQuiet": true
+    "publishQuiet": true,
+    "parallel": 2
   }
 }
 

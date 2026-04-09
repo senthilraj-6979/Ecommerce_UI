@@ -1,12 +1,19 @@
-import reporter from "cucumber-html-reporter";
+const reporter = require('cucumber-html-reporter');
 
 const options = {
-  theme: "bootstrap",
-  jsonFile: "reports/cucumber/cucumber-report.json",
-  output: "reports/cucumber/cucumber-report.html",
-  reportSuiteAsScenarios: true,
-  scenarioTimestamp: true,
-  launchReport: true
-} as const;
+    theme: 'bootstrap',
+    jsonFile: 'cucumber-report.json',
+    output: 'cucumber-report.html',
+    reportSuiteAsScenarios: true,
+    scenarioTimestamp: true,
+    launchReport: true,
+    metadata: {
+        "App Version": "1.0.0",
+        "Test Environment": "STAGING",
+        "Browser": "Chrome 91",
+        "Platform": "Windows 10",
+        "Executed": "Local"
+    }
+};
 
 reporter.generate(options);

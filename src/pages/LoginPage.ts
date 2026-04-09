@@ -1,5 +1,4 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { count } from "console";
 import { BasePage } from "./BasePage";
 
 export class LoginPage extends BasePage {
@@ -29,16 +28,6 @@ export class LoginPage extends BasePage {
     await this.signPopup.waitFor({ state: 'visible', timeout: 50000 });
     await this.page.waitForTimeout(2000); // Wait for popup animations
     
-    // First, close the popup by clicking the arrow or anywhere to dismiss it
-    try {
-      await this.popupArrow.click({ timeout: 3000 });
-      await this.page.waitForTimeout(500);
-    } catch (e) {
-      // If no arrow, try clicking outside popup to close it
-      await this.page.mouse.click(100, 100);
-      await this.page.waitForTimeout(500);
-    }
-    
     // Now the Sign In link should be accessible
     await this.signInLink.click();
     await this.page.waitForLoadState('load');
@@ -49,9 +38,9 @@ export class LoginPage extends BasePage {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.submitButton.click();
-    // Wait for login to process
-    await this.page.waitForLoadState('load');
-    await this.page.waitForTimeout(3000); // Give time for redirect/processing
+    // Wait for login to process and navigation to complete
+    await this.page.waitForLoadState('networkidle', { timeout: 60000 });
+    await this.page.waitForTimeout(3000); // Additional buffer for any post-login processing
   }
 
 
