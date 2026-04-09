@@ -7,11 +7,21 @@ Feature: Amtrak Deals Page Functionality
     Then Click on the Deals option
     Then Amtrak Deals page should be loaded
     Then Click on the "<Deals>" and Verify 
-      Then Click on the Deals option          
-   # Then Verify the deal details page is displayed 
     Examples:
       |Deals| 
       |Night Owl Fares|
       |Share Fares|
       |See current promotions|  
-        
+      |Child Discounts|
+      |Senior Discounts|
+      |Student Discounts|
+      |See all discounts|
+      |Amtrak Vacations|
+      |Train Tour Packages|
+      |Family Trip by Train|
+      |More getaways and journeys|
+      |Multi-Ride Pass|
+      |USA Rail Pass|
+      |California Rail Pass|
+      |RideReserve|
+      |About rail passes|
